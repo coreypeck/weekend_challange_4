@@ -1,0 +1,25 @@
+body{
+  width: 750px;
+}
+.form-group {
+    display: inline;
+}
+.summary {
+    margin: 5px 44px 5px 34px;
+}
+#taskName {
+    width: 136px;
+}
+.eachTask{
+  margin-top: 10px;
+  border: 2px solid red;
+  background-color: pink;
+}
+#task-home div div{
+  display: inline;
+}
+.completed{
+  margin-top: 10px;
+  border: 2px solid DarkGreen;
+  background-color: green;
+}

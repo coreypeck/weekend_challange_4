@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Weekend Project 4</title>
+    <script type="text/javascript" src="./vendors/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="./vendors/bootstrap.min.js"></script> -->
+
+    <script type="text/javascript" src="./scripts/clientapp.js"></script>
+
+    <!-- <link rel="stylesheet" type="text/css" href="./vendors/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+
+</head>
+
+<body>
+    <h1>Enter Task:</h1>
+        <form id="task-input">
+            <div class="form-group">
+                <label for="task-name">Task</label>
+                <input type="text" id="taskName" name="taskName" class="form-control" />
+            </div>
+            <button type="submit" id="submit-task">Create Task</button>
+        </form>
+        <div class="summary">
+            <textarea name="taskSummary" form="task-input">Summary of Task...</textarea>
+        </div>
+
+    <div id='task-home'>
+
+
+    </div>
+</body>
+
+</html>
