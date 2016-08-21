@@ -3,10 +3,20 @@
 $(document).ready(function() {
     // document.getElementById("taskName").value = "Task:";
     getTasks();
-    $("#task-input").on("click", "#submit-task", initialpostTask);
-    $("#task-home").on("click", ".status", putStatusUpdate);
-    $("#task-home").on("click", ".delete", deleteTask);
+    getEventListeners();
 });
+
+//I moved the event listeners for document.ready could look nice
+
+function getEventListeners() {
+    $("#task-input").on("click", "#submit-task", initialpostTask);
+    $("#completed-task-home").on("click", ".status", putStatusUpdate);
+    $("#completed-task-home").on("click", ".delete", deleteTask);
+    $("#completed-task-home").on("click", ".update", checkStringLength);
+    $("#incompleted-task-home").on("click", ".status", putStatusUpdate);
+    $("#incompleted-task-home").on("click", ".delete", deleteTask);
+    $("#incompleted-task-home").on("click", ".update", checkStringLength);
+}
 
 //Sets up imgs for easier calling and assigning
 
@@ -22,7 +32,7 @@ function initialpostTask() {
         task[field.name] = field.value;
     });
     //   $.each($('#registerPet').serializeArray(), function(i, field) {
-        // pet[field.name] = field.value;});
+    // pet[field.name] = field.value;});
     task.taskStatus = "NO";
     $.ajax({
         type: 'POST',
@@ -51,43 +61,30 @@ function getTasks() {
         url: '/tasks',
         success: function(tasksList) {
             //Correct Here
-            $('#task-home').empty();
+            $('#completed-task-home').empty();
+            $("#incompleted-task-home").empty();
             tasksList.forEach(function(task, i) {
-                // var taskArray = [];
-                // taskArray.push({
-                //     id: task.id,
-                //     name: task.task_name,
-                //     summary: task.task_description,
-                //     status: task.completion_status
-                // });
-                var id = task.id;
-                var summary = task.task_description;
-                var name = task.task_name;
-                var status = task.completion_status;
+                var taskArray = [];
+                taskArray.push({
+                    id: task.id,
+                    name: task.task_name,
+                    summary: task.task_description,
+                    status: task.completion_status
+                });
+                var id = taskArray[0].id;
                 var taskNameInput = '<input type="text" id="' + id + '" name="' + id + '" class="form-control" />';
 
                 //The functions that do the appending
 
-                appendTask(id, summary, status, name);
+                appendTask(taskArray, id);
             });
         },
         error: function() {
-            console.log("/GET SELECTED TASKS didntWork");
+            console.log("/GET SELECTED TASKS didnt Work");
         }
     });
 }
 
-//A function to abstract the appending of buttons, mainly here to clear up clutter in my GET call
-
-function appendButtons($el, id) {
-
-    $el.append('<button id=' + id + ' class="update">Update</button>');
-    $el.append('<button id=' + id + ' class="delete">Delete</button>');
-    $el.append('<button id=' + id + ' class="status">Complete</button>');
-}
-//Idea for a Toggle Class function
-// function toggleStatus(specificTask){
-//   $(this).toggleClass("completed");}
 //Made to specifically update the status of a given task
 
 function putStatusUpdate() {
@@ -97,7 +94,13 @@ function putStatusUpdate() {
     var taskId = $(this).parent().data('id')
     var task = {};
     task.id = taskId;
+
+    //This is how I attached my toggle logic without toggle
+
     if ($(this).parent().hasClass('eachTask completed')) {
+
+      //Assigns NO is the background color was 'completed' giving the option to redo a task or fix a misclick
+
         task.status = "NO";
     } else if ($(this).parent().hasClass('eachTask')) {
         task.status = "YES";
@@ -121,41 +124,50 @@ function putStatusUpdate() {
 
 //I used this to help clean up my Get Call
 
-function appendTask(id, summary, status, name) {
-    if (status == "YES") {
+function appendTask(taskArray, id) {
+
+//two slightly different functions based on the status of completion.
+//I couldn't quite abstract the $els because they needed to run in these ifs.
+//This is because the final append is reliant on information from appendDetails
+
+    if (taskArray[0].status == "YES") {
         var $el = $('<div class="eachTask completed" id="' + id + '"></div>');
         $el.data("id", id);
-        $el = appendDetails(id, $el, summary, status, name);
+        $el = appendDetails(taskArray, id, $el);
         $el.append(thumbsUp);
-        $("#task-home").append($el);
+        $("#completed-task-home").append($el);
     } else {
         var $el = $('<div class=eachTask id="' + id + '"></div>');
         $el.data("id", id);
-        $el = appendDetails(id, $el, summary, status, name);
+        $el = appendDetails(taskArray, id, $el);
         $el.append(thumbsDown);
-        $("#task-home").append($el);
+        $("#incompleted-task-home").append($el);
     }
 }
 
 //Further Abstraction for my GET Call
 
-function appendDetails(id, $el, summary, status, name) {
+function appendDetails(taskArray, id, $el) {
 
-    // <input type="text" id="taskName" name="taskName" class="form-control" value="Task:" onClick="this.select()"/>
-    //This creates the Task name as a from field so that it might get updated
+  //I put the the code into different variables to help trim down the inevitably long concatenation
 
-    var inputTaskName = "<input type='text' id='" + id + "'name='" + id + "'class='form-control' value='" + name + "'onClick='this.select()'</input>";
-
-    // <p class=summary-text>" + taskArray[0].summary + "</p></div>"
-    // This creates the Task Summary as a from field so that it might get updated
-// <input type="text" id="taskSummary" name="taskSummary" class="form-control" value="Task Description:" onClick="this.select()" />
-    var inputTaskSummary = "<input type='text' id='taskSummary' name='taskSummary' class='form-control' value='" + summary + "' onClick='this.select()' />";
-    $el.append("<div class ='" + id + "'><span class='task-title'<strong>Task " + id + ": </strong></span>" + inputTaskName + inputTaskSummary + "</div>");
+    var inputTaskName = "<p class='pastTaskName' contenteditable='true'>" + taskArray[0].name + "</p>";
+    var inputTaskSummary = "<p class='pastTaskSummary' contenteditable='true'>" + taskArray[0].summary + "</p>";
+    $el.append("<div class ='" + id + "'><span class='task-title'><strong>Task " + id + ": </strong></span>" + inputTaskName + inputTaskSummary + "</div>");
     appendButtons($el, id);
-    summary="";
     return $el;
 }
+
+//A function to abstract the appending of buttons, mainly here to clear up clutter in my GET call
+
+function appendButtons($el, id) {
+    $el.append('<button id=' + id + ' class="update">Update</button>');
+    $el.append('<button id=' + id + ' class="delete">Delete</button>');
+    $el.append('<button id=' + id + ' class="status">Complete</button>');
+}
+
 //Function to delete with a confirm, just in case
+
 function deleteTask() {
     var ans = confirm("Are you sure you want to delete this Task?");
     if (ans == false) {
@@ -168,10 +180,6 @@ function deleteTask() {
             success: function() {
                 console.log('DELETED bookID:', taskToDelete);
                 getTasks();
-                // $('#dataTable').empty();
-                // $('#ownerName').empty();
-                // getData();
-                // getOwners();
             },
             error: function() {
                 console.log("error in delete");
@@ -179,4 +187,33 @@ function deleteTask() {
         });
     }
 
+}
+
+//Checks the input vs. Max string length so the user can't try to put something SQL wouldn't like
+
+function checkStringLength() {
+    var stringName = $(this).prev().children(".pastTaskName").text();
+    var stringDescription = $(this).prev().children(".pastTaskSummary").text();
+    var stringDescriptionLength = stringDescription.length;
+    var stringNameLength = stringName.length;
+    var id = $(this).parent().data("id");
+    var taskText = {};
+    if (stringDescriptionLength > 250 || stringNameLength > 60) {
+        alert("Please enter a shorter Information. Descriptions can be 250 characters, Task names can be 60");
+    } else {
+        taskText.name = stringName;
+        taskText.summary = stringDescription;
+        $.ajax({
+            type: "PUT",
+            url: "/tasks/update/" + id,
+            data: taskText,
+            success: function() {
+                console.log("Put Update Succeeded");
+                getTasks();
+            },
+            error: function() {
+                console.log("Put Update Failed");
+            }
+        });
+    }
 }

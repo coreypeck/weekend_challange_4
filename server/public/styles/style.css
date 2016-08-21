@@ -2,33 +2,55 @@ body {
     text-align: center;
     width: 500px;
 }
-.form-group {
-    display: block;
+h4 {
+    margin: 10px 10px 10px 10px;
 }
-.summary {
-    margin-top: 5px;
+#completed-group {
+    background-color: LightBlue;
+    border: 2px dashed blue;
+}
+#completed-task-home {
+    border: 5px solid DarkGreen;
+}
+#completed-task-home div div {
+    display: inline;
+}
+#incompleted-group {
+    background-color: silver;
+    border: 2px dashed black;
+}
+#incompleted-task-home {
+    border: 5px solid DarkRed;
+}
+#incompleted-task-home div div {
+    display: inline;
 }
 #taskName {
-    width: 136px;
+    width: 125px;
+}
+#taskSummary {
+    margin: 5px 0px 5px 0px;
+    width: 175px;
+}
+.completed {
+    border: 2px solid Green;
+    background-color: LightGreen;
 }
 .eachTask {
-    margin-top: 10px;
     border: 2px solid red;
     background-color: pink;
     text-align: center;
 }
-#task-home div div {
+.form-group {
+    display: block;
+}
+.pastTaskName {
     display: inline;
 }
-.completed {
-    margin-top: 10px;
-    border: 2px solid DarkGreen;
-    background-color: LightGreen;
+.submitted-summary {
+    display: block;
+    margin: 5px 0px 5px 178px;
 }
-.task-title{
-  display: block;
-}
-.submitted-summary{
-  display: block;
-  margin: 5px 0px 5px 178px;
+.task-title {
+    display: inline;
 }

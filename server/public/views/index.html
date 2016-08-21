@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="utf-8">
     <title>Weekend Project 4</title>
     <script type="text/javascript" src="./vendors/jquery.min.js"></script>
     <!-- <script type="text/javascript" src="./vendors/bootstrap.min.js"></script> -->
-
     <script type="text/javascript" src="./scripts/clientapp.js"></script>
-
     <!-- <link rel="stylesheet" type="text/css" href="./vendors/bootstrap.min.css"> -->
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
 
@@ -17,20 +13,33 @@
 
 <body>
     <h1>Enter Task:</h1>
-        <form id="task-input">
-            <div class="form-group">
-                <!-- <label for="taskName"></label> -->
-                <input type="text" id="taskName" name="taskName" class="form-control" value="Task:" onClick="this.select()"/>
-            </div>
-            <div class="form-group">
-                <input type="text" id="taskSummary" name="taskSummary" class="form-control" value="Task Description:" onClick="this.select()" />
-            </div>
-            <button type="submit" id="submit-task">Create Task</button>
-        </form>
+    <form id="task-input">
+        <div class="form-group">
 
+            <input type="text" id="taskName" name="taskName" class="form-control" value="Task:" onFocus="this.select()" />
 
-    <div id='task-home'>
+        </div>
+        <div class="form-group">
 
+            <input type="text" id="taskSummary" name="taskSummary" class="form-control" value="Task Description:" onFocus="this.select()" />
+
+        </div>
+
+        <button type="submit" id="submit-task">Create Task</button>
+
+    </form>
+    <div id="incompleted-group">
+
+        <h4>Incompleted Tasks:</h4>
+
+        <div id='incompleted-task-home'></div>
+
+    </div>
+    <div id="completed-group">
+
+        <h4>Completed Tasks:</h4>
+
+        <div id='completed-task-home'></div>
 
     </div>
 </body>

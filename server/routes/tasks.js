@@ -80,4 +80,26 @@ router.delete('/:id', function(req, res) {
             });
     });
 });
+router.put('/update/:id', function(req, res) {
+    var id = req.params.id;
+    var task = req.body;
+
+    pg.connect(connectionString, function(err, client, done) {
+        if (err) {
+            res.sendStatus(500);
+        }
+        client.query('UPDATE tasks SET task_name = $1, task_description = $2 WHERE id = $3', [task.name, task.summary, id],
+            function(err, result) {
+                done();
+                if (err) {
+                    res.sendStatus(500);
+                    console.log("Error in pg.connect:", err);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+
+    });
+
+});
 module.exports = router;
