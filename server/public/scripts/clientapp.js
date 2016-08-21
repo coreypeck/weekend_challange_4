@@ -24,8 +24,8 @@ function getEventListeners() {
     $("#incompleted-task-home").on("click", ".update", checkStringLength);
     animations();
 }
-function animations(){
-  $("#incompleted-task-home").on('mouseover',".eachTask", 500, function() {
+function animations() {
+    $("#incompleted-task-home").on('mouseover', ".eachTask", 500, function() {
       $(this).stop().animate({
           marginLeft: 100,
           marginRight: -100
@@ -39,8 +39,8 @@ function animations(){
   });
   $("#completed-task-home").on('mouseover',".eachTask", 500, function() {
       $(this).stop().animate({
-          marginLeft: -100,
-          marginRight: 100
+          marginLeft: 100,
+          marginRight: -100
       });
   });
   $("#completed-task-home").on('mouseleave',".eachTask", 500, function() {
@@ -55,7 +55,7 @@ function animations(){
     $(this).css("font-family", fontsArray[ranText]);
   });
 }
-  function randomNumber(min, max) {
+function randomNumber(min, max) {
     return Math.floor(Math.random() * (1 + max - min) + min);
 }
 
@@ -76,7 +76,7 @@ function initialpostTask() {
         data: task,
         success: function() {
             console.log("task was posted to db");
-            document.getElementById("taskSummary").value = "Task Description";
+            document.getElementById("taskSummary").value = "Task Description:";
             document.getElementById("taskName").value = "Task:";
             // document.getElementById("#summary").children().value = "Summary of Task..."
             getTasks();
@@ -167,7 +167,7 @@ function appendTask(taskArray, id) {
     //This is because the final append is reliant on information from appendDetails
 
     if (taskArray[0].status == "YES") {
-        var $el = $('<div class="eachTask completed" id="' + id + '"></div>');
+        var $el = $('<div class="eachTask completed" id="' + id + '">');
         $el.data("id", id);
         $el = appendDetails(taskArray, id, $el);
         $el.append(thumbsUp);
@@ -197,9 +197,9 @@ function appendDetails(taskArray, id, $el) {
 //A function to abstract the appending of buttons, mainly here to clear up clutter in my GET call
 
 function appendButtons($el, id) {
-    $el.append('<button id=' + id + ' class="update">Update</button>');
-    $el.append('<button id=' + id + ' class="delete">Delete</button>');
-    $el.append('<button id=' + id + ' class="status">Complete</button>');
+    $el.append('<button id=' + id + ' class="update button">Update</button>');
+    $el.append('<button id=' + id + ' class="delete button">Delete</button>');
+    $el.append('<button id=' + id + ' class="status button">Complete</button>');
 }
 
 //Function to delete with a confirm, just in case
@@ -234,8 +234,8 @@ function checkStringLength() {
     var stringNameLength = stringName.length;
     var id = $(this).parent().data("id");
     var taskText = {};
-    if (stringDescriptionLength > 250 || stringNameLength > 60) {
-        alert("Please enter a shorter Information. Descriptions can be 250 characters, Task names can be 60");
+    if (stringDescriptionLength > 70 || stringNameLength > 35) {
+        alert("Please enter a shorter Information. Descriptions can be 70 characters, Task names can be 35");
     } else {
         taskText.name = stringName;
         taskText.summary = stringDescription;

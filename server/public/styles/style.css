@@ -6,10 +6,6 @@ body {
     margin: auto;
     padding: 10px 10px 10px 10px;
 }
-#head{
-  height: 30px;
-  font-family: serif;
-}
 h4 {
     margin: 10px 10px 10px 10px;
 }
@@ -19,9 +15,15 @@ h4 {
 }
 #completed-task-home {
     border: 5px solid DarkGreen;
+    background-image: url("../imgs/thumbsup.png");
+    background-size: 100px 91px;
 }
 #completed-task-home div div {
     display: inline;
+}
+#head {
+    height: 30px;
+    font-family: serif;
 }
 #incompleted-group {
     background-color: silver;
@@ -29,12 +31,26 @@ h4 {
 }
 #incompleted-task-home {
     border: 5px solid DarkRed;
+    background-image: url("../imgs/thumbsdown.png");
+    background-size: 100px 91px;
 }
 #incompleted-task-home div div {
     display: inline;
 }
-#task-input{
-  margin-bottom: 5px;
+
+/*#large-down {
+    float: left;
+    display: inline-block;
+    position: absolute;
+}
+#large-up {
+    display: inline-block;
+    float: right;
+    position: absolute;
+}*/
+
+#task-input {
+    margin-bottom: 5px;
 }
 #taskName {
     width: 125px;
@@ -44,9 +60,16 @@ h4 {
     width: 175px;
 }
 .eachTask {
+    position: relative;
     border: 2px solid red;
     background-color: pink;
     text-align: center;
+}
+.button {
+    transition-duration: 0.4s;
+}
+.button:hover {
+    box-shadow: 0 8px 16px 0 grey, 0 6px 20px 0 grey;
 }
 .completed {
     border: 2px solid Green;
@@ -64,4 +87,13 @@ h4 {
 }
 .task-title {
     display: inline;
+}
+.thumbs-down-home {
+    background-image: url("../imgs/thumbsdown.png");
+    background-size: 100px 91px;
+}
+.thumbs-up-home {
+    background-image: url("../imgs/thumbsup.png");
+    background-position: right;
+    background-size: 100px 91px;
 }
