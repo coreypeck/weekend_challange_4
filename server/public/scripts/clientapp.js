@@ -6,6 +6,12 @@ $(document).ready(function() {
     getEventListeners();
 });
 
+//Sets up imgs for easier calling and assigning
+
+var thumbsUp = "<img src ='../imgs/thumbsup.png' alt='Thumbs Up!' height='12' width='12'>";
+var thumbsDown = "<img src ='../imgs/thumbsdown.png' alt='Thumbs Down.' height='12' width='12'>";
+var fontsArray = ["Georgia", "Palatino", "Times", "Helvetica", "Gadget", "cursive", "Charcoal", "Lucida Grande", "Geneva", "Arial", "Verdana", "Courier", "Monaco"];
+
 //I moved the event listeners for document.ready could look nice
 
 function getEventListeners() {
@@ -16,12 +22,42 @@ function getEventListeners() {
     $("#incompleted-task-home").on("click", ".status", putStatusUpdate);
     $("#incompleted-task-home").on("click", ".delete", deleteTask);
     $("#incompleted-task-home").on("click", ".update", checkStringLength);
+    animations();
 }
+function animations(){
+  $("#incompleted-task-home").on('mouseover',".eachTask", 500, function() {
+      $(this).stop().animate({
+          marginLeft: 100,
+          marginRight: -100
+      });
+  });
+  $("#incompleted-task-home").on('mouseleave', ".eachTask", 500, function() {
+      $(this).stop().animate({
+          marginLeft: 0,
+          marginRight: 0
+      });
+  });
+  $("#completed-task-home").on('mouseover',".eachTask", 500, function() {
+      $(this).stop().animate({
+          marginLeft: -100,
+          marginRight: 100
+      });
+  });
+  $("#completed-task-home").on('mouseleave',".eachTask", 500, function() {
+      $(this).stop().animate({
+          marginLeft: 0,
+          marginRight: 0
+      });
+  });
+  $("#head").on("mouseover", 500, function(){
+    var ranText = randomNumber(0, fontsArray.length);
 
-//Sets up imgs for easier calling and assigning
-
-var thumbsUp = "<img src ='../imgs/thumbsup.png' alt='Thumbs Up!' height='12' width='12'>";
-var thumbsDown = "<img src ='../imgs/thumbsdown.png' alt='Thumbs Down.' height='12' width='12'>";
+    $(this).css("font-family", fontsArray[ranText]);
+  });
+}
+  function randomNumber(min, max) {
+    return Math.floor(Math.random() * (1 + max - min) + min);
+}
 
 //I needed something definitive to be able to set the status to NO at the git-go
 
@@ -99,7 +135,7 @@ function putStatusUpdate() {
 
     if ($(this).parent().hasClass('eachTask completed')) {
 
-      //Assigns NO is the background color was 'completed' giving the option to redo a task or fix a misclick
+        //Assigns NO is the background color was 'completed' giving the option to redo a task or fix a misclick
 
         task.status = "NO";
     } else if ($(this).parent().hasClass('eachTask')) {
@@ -126,9 +162,9 @@ function putStatusUpdate() {
 
 function appendTask(taskArray, id) {
 
-//two slightly different functions based on the status of completion.
-//I couldn't quite abstract the $els because they needed to run in these ifs.
-//This is because the final append is reliant on information from appendDetails
+    //two slightly different functions based on the status of completion.
+    //I couldn't quite abstract the $els because they needed to run in these ifs.
+    //This is because the final append is reliant on information from appendDetails
 
     if (taskArray[0].status == "YES") {
         var $el = $('<div class="eachTask completed" id="' + id + '"></div>');
@@ -149,7 +185,7 @@ function appendTask(taskArray, id) {
 
 function appendDetails(taskArray, id, $el) {
 
-  //I put the the code into different variables to help trim down the inevitably long concatenation
+    //I put the the code into different variables to help trim down the inevitably long concatenation
 
     var inputTaskName = "<p class='pastTaskName' contenteditable='true'>" + taskArray[0].name + "</p>";
     var inputTaskSummary = "<p class='pastTaskSummary' contenteditable='true'>" + taskArray[0].summary + "</p>";
