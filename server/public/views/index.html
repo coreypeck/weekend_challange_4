@@ -19,14 +19,15 @@
     <h1>Enter Task:</h1>
         <form id="task-input">
             <div class="form-group">
-                <label for="task-name">Task</label>
-                <input type="text" id="taskName" name="taskName" class="form-control" />
+                <!-- <label for="taskName"></label> -->
+                <input type="text" id="taskName" name="taskName" class="form-control" value="Task:" onClick="this.select()"/>
+            </div>
+            <div class="form-group">
+                <input type="text" id="taskSummary" name="taskSummary" class="form-control" value="Task Description:" onClick="this.select()" />
             </div>
             <button type="submit" id="submit-task">Create Task</button>
         </form>
-        <div class="summary">
-            <textarea name="taskSummary" form="task-input">Summary of Task...</textarea>
-        </div>
+
 
     <div id='task-home'>
 

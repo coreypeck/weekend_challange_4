@@ -5,7 +5,6 @@ var connectionString = 'postgres://localhost:5432/omicron';
 
 router.post('/', function(req, res) {
     var task = req.body;
-    console.log(req.body);
 
     pg.connect(connectionString, function(err, client, done) {
         if (err) {
@@ -37,7 +36,6 @@ router.get('/', function(req, res) {
             if (err) {
                 res.sendStatus(500);
             }
-
             res.send(result.rows);
         });
     });
@@ -63,5 +61,23 @@ router.put('/status/:id', function(req, res) {
 
     });
 
+});
+router.delete('/:id', function(req, res) {
+    var id = req.params.id;
+    pg.connect(connectionString, function(err, client, done) {
+        if (err) {
+            res.sendStatus(500);
+        }
+        client.query('DELETE FROM tasks ' +
+            'WHERE id = $1', [id],
+            function(err, result) {
+                done();
+                if (err) {
+                    res.sendStatus(500);
+                    return;
+                }
+                res.sendStatus(200);
+            });
+    });
 });
 module.exports = router;
