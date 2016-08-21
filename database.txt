@@ -1,7 +1,7 @@
 
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
-    task_name character varying(60),
-    task_description character varying(250),
+    task_name character varying(35),
+    task_description character varying(70),
     completion_status character varying(5)
 );
